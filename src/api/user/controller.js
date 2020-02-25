@@ -8,6 +8,20 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .then(success(res))
     .catch(next)
 
+export const noValidated = ({ querymen: { query, select, cursor } }, res, next) => {
+  query.validated = false
+  User.find(query, select, cursor)
+    .then((users) => users.map((user) => user.view()))
+    .then((users) => {
+      if (users.length == 0)
+        return res.sendStatus(404)
+      else
+        return users
+    })
+    .then(success(res))
+    .catch(next)
+}
+
 export const show = ({ params }, res, next) =>
   User.findById(params.id)
     .then(notFound(res))
@@ -29,11 +43,13 @@ export const create = (req, res, next) => {
       contentType: req.file.mimetype
     }
   })
-    .then(user => {
+    /*.then(user => {
       sign(user.id)
         .then((token) => ({ token, user: user.view(true) }))
         .then(success(res, 201))
-    })
+    })*/
+    .then(user => user.view(true))
+    .then(success(res, 201))
     .catch((err) => {
       /* istanbul ignore else */
       if (err.name === 'MongoError' && err.code === 11000) {
@@ -93,6 +109,32 @@ export const updateImg = (req, res, next) =>
     .then((user) => user ? user.view(true) : null)
     .then(success(res))
     .catch(next)
+
+export const validarUsuario = (req, res, next) =>
+  User.findById(req.params.id === 'me' ? req.user.id : req.params.id)
+    .then(notFound(res))
+    .then((result) => {
+      if (!result) return null
+      const isAdmin = req.user.role === 'admin'
+      const isSelfUpdate = req.user.id === result.id
+      if (!isSelfUpdate && !isAdmin) {
+        res.status(401).json({
+          valid: false,
+          message: 'You can\'t change other user\'s data'
+        })
+        return null
+      }
+      return result
+    })
+    // .then((user) => user ? Object.assign(user, body).save() : null)
+    .then((user) => {
+      user.validated = true
+      return user.save()
+    })
+    .then((user) => user ? user.view(true) : null)
+    .then(success(res))
+    .catch(next)
+
 
 export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =>
   User.findById(params.id === 'me' ? user.id : params.id)

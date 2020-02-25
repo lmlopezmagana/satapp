@@ -37,7 +37,11 @@ const userSchema = new Schema({
     enum: roles,
     default: 'user'
   },
-  picture: imgSchema
+  picture: imgSchema,
+  validated: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true
 })

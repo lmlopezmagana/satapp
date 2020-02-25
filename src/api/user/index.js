@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { password as passwordAuth, master, token } from '../../services/passport'
-import { index, showMe, show, create, updateName, updateImg,  updatePassword, destroy, getImage, deleteImg } from './controller'
+import { index, showMe, show, create, updateName, updateImg,  updatePassword, destroy, getImage, deleteImg, validarUsuario, noValidated } from './controller'
 import User, { schema } from './model'
 export User, { schema } from './model'
 
@@ -28,6 +28,25 @@ router.get('/',
   token({ required: true }),
   query(),
   index)
+
+
+/**
+ * @api {get} /users Retrieve users no validated
+ * @apiName RetrieveUsersNoValidate
+ * @apiGroup User
+ * @apiPermission admin
+ * @apiParam {String} access_token User access_token.
+ * @apiUse listParams
+ * @apiSuccess {Object[]} users List of users no validated
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 401 Admin access only.
+ * @apiError 404 No hay usuarios sin validar.
+ */
+router.get('/no-validated',
+  token({ required: true }),
+  query(),
+  noValidated)
+
 
 /**
  * @api {get} /users/me Retrieve current user
@@ -107,6 +126,22 @@ router.put('/:id',
   body({ name }),
   updateName)
 
+
+/**
+ * @api {put} /users/:id/validate Valida un usuario
+ * @apiName ValidateUser
+ * @apiGroup User
+ * @apiPermission admin
+ * @apiParam {String} access_token User access_token.
+ * @apiSuccess {Object} user User's data.
+ * @apiError 401 Current user or admin access only.
+ * @apiError 404 User not found.
+ */
+router.put('/:id/validate',
+  token({ required: true }),
+  body({ name }),
+  validarUsuario)
+
 /**
  * @api {put} /users/:id/img Update user's picture
  * @apiName UpdateUser
@@ -184,7 +219,8 @@ User.countDocuments({role: 'admin'}, function(err, count){
       name: 'Admin',
       email: 'admin@administrador.com',
       password: '12345678',
-      role: 'admin'
+      role: 'admin',
+      validated: true
     })
     .then((user) => console.log('Usuario admin creado'))
     .catch(err)

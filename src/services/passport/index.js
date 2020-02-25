@@ -45,6 +45,11 @@ passport.use('password', new BasicStrategy((email, password, done) => {
       done(true)
       return null
     }
+    if (user.validated == false) {
+      console.log("Usuario no validado")
+      done(true)
+      return null
+    }
     return user.authenticate(password, user.password).then((user) => {
       done(null, user)
       return null

@@ -1,23 +1,55 @@
 import { success, notFound } from '../../services/response/'
 import { Inventariable, tipos } from '.'
+import { getCompleteCode } from './sequence'
 
-export const create = (req, res, next) =>
+
+
+export const create = (req, res, next) => {
   // Inventariable.create(body)
-  Inventariable.create({
-    codigo: req.body.codigo,
-    tipo: req.body.tipo,
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion,
-    inventariable: req.body.ubicacion,
-    imagen: {
-      data: req.file.buffer.toString('base64'),
-      contentType: req.file.mimetype
-    }
-  })
-    .then((inventariable) => inventariable.view(true))
-    .then(success(res, 201))
-    .catch(next)
+  
 
+  if (tipos.includes(req.body.tipo)) {
+    const tiposAbreviados = ['PC', 'MON', 'IMP', 'RED', 'PER', 'OTR']
+    let index = tipos.indexOf(req.body.tipo)
+    let tipoElegido = tiposAbreviados[index]
+
+    getCompleteCode(tipoElegido)
+      .then((code) => 
+          Inventariable.create({
+            // codigo: req.body.codigo,
+            codigo: code,
+            tipo: req.body.tipo,
+            nombre: req.body.nombre,
+            descripcion: req.body.descripcion,
+            inventariable: req.body.ubicacion,
+            imagen: {
+              data: req.file.buffer.toString('base64'),
+              contentType: req.file.mimetype
+            }
+          })
+
+      )
+
+    /*
+    Inventariable.create({
+      codigo: req.body.codigo,
+      tipo: req.body.tipo,
+      nombre: req.body.nombre,
+      descripcion: req.body.descripcion,
+      inventariable: req.body.ubicacion,
+      imagen: {
+        data: req.file.buffer.toString('base64'),
+        contentType: req.file.mimetype
+      }
+    })*/
+      .then((inventariable) => inventariable.view(true))
+      .then(success(res, 201))
+      .catch(next)
+
+  } else
+    res.status(400).json({ error: "Tipo de inventariable no permitido"})
+
+}
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   Inventariable.find(query, select, cursor)
     .then((inventariables) => inventariables.map((inventariable) => inventariable.view()))
