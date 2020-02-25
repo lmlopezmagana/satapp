@@ -24,6 +24,8 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .then(success(res))
     .catch(next)
 
+
+// TODO Incluir dentro los tickets que tenga asociado un Inventariable
 export const show = ({ params }, res, next) =>
   Inventariable.findById(params.id)
     .then(notFound(res))

@@ -18,7 +18,7 @@ const { codigo, tipo, nombre, descripcion, imagen } = schema.tree
  * @api {post} /inventariable Create inventariable
  * @apiName CreateInventariable
  * @apiGroup Inventariable
- * @apiPermission user
+ * @apiPermission admin
  * @apiParam {String} access_token user access token.
  * @apiParam codigo Inventariable's codigo.
  * @apiParam tipo Inventariable's tipo.
@@ -31,7 +31,7 @@ const { codigo, tipo, nombre, descripcion, imagen } = schema.tree
  * @apiError 401 user access only.
  */
 router.post('/',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   // body({ codigo, tipo, nombre, descripcion, imagen }),
   upload.single('imagen'), 
   create)
@@ -86,6 +86,17 @@ router.get('/ubicaciones',
 )
 
 
+/**
+ * @api {get} /inventariable/tipos Retrieve tipos
+ * @apiName RetrieveTipos
+ * @apiGroup Inventariable
+ * @apiPermission user
+ * @apiParam {String} access_token user access token.
+ * @apiSuccess {String[]} Array de tipos.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 No hay tipos.
+ * @apiError 401 user access only.
+ */
 router.get('/tipos',
   token({required: true}),
   getTipos
@@ -123,7 +134,7 @@ router.get('/:id',
  * @apiError 401 user access only.
  */
 router.put('/:id',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   body({ codigo, tipo, nombre, descripcion, imagen }),
   update)
 
@@ -140,7 +151,7 @@ router.put('/:id',
  * @apiError 401 user access only.
  */
 router.put('/:id/img',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   upload.single('imagen'),
   updateImg)
 
@@ -156,7 +167,7 @@ router.put('/:id/img',
  * @apiError 401 user access only.
  */
 router.delete('/:id',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   destroy)
 
 /**
@@ -170,8 +181,9 @@ router.delete('/:id',
  * @apiError 401 user access only.
  */
 router.delete('/:id/img',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   destroy)
+
 
 
 
