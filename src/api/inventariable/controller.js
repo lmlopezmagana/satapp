@@ -21,6 +21,7 @@ export const create = (req, res, next) => {
             tipo: req.body.tipo,
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,
+            ubicacion: req.body.ubicacion,
             inventariable: req.body.ubicacion,
             imagen: {
               data: req.file.buffer.toString('base64'),
@@ -70,8 +71,7 @@ export const update = ({ bodymen: { body }, params }, res, next) =>
     .then(notFound(res))
     // .then((inventariable) => inventariable ? Object.assign(inventariable, body).save() : null)
     .then((inventariable) => {
-      inventariable.codigo = body.codigo
-      inventariable.tipo = body.tipo
+      inventariable.nombre = body.nombre
       inventariable.descripcion = body.descripcion
       inventariable.ubicacion = body.ubicacion
       return inventariable.save()
@@ -111,8 +111,14 @@ export const getImage = ({ params }, res, next) =>
     .catch(next)
 
 export const getUbicaciones = (req, res, next) =>
-  Inventariable.disinct({ubicacion})
+  Inventariable.distinct('ubicacion')
     // .then((inventariables) => inventariables.map((inventariable) => inventariable.view()))
+    .then((ubicaciones) => {
+      if (ubicaciones.length == 0)
+        res.sendStatus(404)
+      else
+        return ubicaciones
+    })
     .then(success(res))
     .catch(next)
 

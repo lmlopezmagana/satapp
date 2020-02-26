@@ -44,7 +44,7 @@ inventariableSchema.methods = {
       tipo: this.tipo,
       nombre: this.nombre,
       descripcion: this.descripcion,
-      ubicacion: this.ubucacion,
+      ubicacion: this.ubicacion,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

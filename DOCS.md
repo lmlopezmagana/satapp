@@ -1,4 +1,4 @@
-# satapp v1.0.3
+# satapp v1.0.4
 
 
 
@@ -13,16 +13,16 @@
 	- [Authenticate](#authenticate)
 	
 - [Inventariable](#inventariable)
-	- [Create inventariable](#create-inventariable)
-	- [Delete inventariable](#delete-inventariable)
-	- [Delete inventariable&#39;s image](#delete-inventariable&#39;s-image)
-	- [Retrieve inventariable](#retrieve-inventariable)
-	- [Retrieve inventariable img](#retrieve-inventariable-img)
-	- [Retrieve inventariables](#retrieve-inventariables)
-	- [Retrieve tipos](#retrieve-tipos)
-	- [Retrieve ubicaciones](#retrieve-ubicaciones)
-	- [Update inventariable](#update-inventariable)
-	- [Update inventariable&#39;s image](#update-inventariable&#39;s-image)
+	- [Actualizar la imagen de un inventariable (PETICIÓN MULTIPARTE)](#actualizar-la-imagen-de-un-inventariable-(petición-multiparte))
+	- [Actualizar un inventariable](#actualizar-un-inventariable)
+	- [Crea un objeto inventariable (PETICIÓN MULTIPARTE)](#crea-un-objeto-inventariable-(petición-multiparte))
+	- [Eliminar una imagen de un inventariable](#eliminar-una-imagen-de-un-inventariable)
+	- [Eliminar un inventariable](#eliminar-un-inventariable)
+	- [Obtiene la imagen de un inventariable](#obtiene-la-imagen-de-un-inventariable)
+	- [Obtener los datos de un inventariable](#obtener-los-datos-de-un-inventariable)
+	- [Obtener la lista de todos los inventariables](#obtener-la-lista-de-todos-los-inventariables)
+	- [Obtener los tipos de inventariable](#obtener-los-tipos-de-inventariable)
+	- [Obtener todas las ubicaciones](#obtener-todas-las-ubicaciones)
 	
 - [Ticket](#ticket)
 	- [Create ticket](#create-ticket)
@@ -146,138 +146,7 @@
 
 # Inventariable
 
-## Create inventariable
-
-
-
-	POST /inventariable
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| codigo			| 			|  <p>Inventariable's codigo.</p>							|
-| tipo			| 			|  <p>Inventariable's tipo.</p>							|
-| nombre			| 			|  <p>Inventariable's nombre.</p>							|
-| descripcion			| 			|  <p>Inventariable's descripcion.</p>							|
-| imagen			| 			|  <p>Inventariable's imagen.</p>							|
-
-## Delete inventariable
-
-
-
-	DELETE /inventariable/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Delete inventariable&#39;s image
-
-
-
-	DELETE /inventariable/:id/img
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Retrieve inventariable
-
-
-
-	GET /inventariable/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Retrieve inventariable img
-
-
-
-	GET /inventariable/img:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Retrieve inventariables
-
-
-
-	GET /inventariable
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| q			| String			| **optional** <p>Query to search.</p>							|
-| page			| Number			| **optional** <p>Page number.</p>							|
-| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
-| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
-| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
-
-## Retrieve tipos
-
-
-
-	GET /inventariable/tipos
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Retrieve ubicaciones
-
-
-
-	GET /inventariable/ubicaciones
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Update inventariable
-
-
-
-	PUT /inventariable/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| codigo			| 			|  <p>Inventariable's codigo.</p>							|
-| tipo			| 			|  <p>Inventariable's tipo.</p>							|
-| nombre			| 			|  <p>Inventariable's nombre.</p>							|
-| descripcion			| 			|  <p>Inventariable's descripcion.</p>							|
-
-## Update inventariable&#39;s image
+## Actualizar la imagen de un inventariable (PETICIÓN MULTIPARTE)
 
 
 
@@ -288,8 +157,137 @@
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| imagen			| 			|  <p>Inventariable's imagen.</p>							|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+| imagen			| 			|  <p>Nueva imagen del inventariable</p>							|
+
+## Actualizar un inventariable
+
+
+
+	PUT /inventariable/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+| nombre			| 			|  <p>Nombre</p>							|
+| descripcion			| 			|  <p>Descripción</p>							|
+
+## Crea un objeto inventariable (PETICIÓN MULTIPARTE)
+
+
+
+	POST /inventariable
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+| tipo			| 			|  <p>Tipo de inventariable. A escoger entre ['PC', 'MONITOR', 'IMPRESORA', 'RED', 'PERIFERICO', 'OTRO']</p>							|
+| nombre			| 			|  <p>Nombre del inventariable</p>							|
+| descripcion			| 			|  <p>Descripción del inventariable</p>							|
+| ubicacion			| 			|  <p>Ubicación del inventariable</p>							|
+| imagen			| 			|  <p>Imagen del inventariable</p>							|
+
+## Eliminar una imagen de un inventariable
+
+
+
+	DELETE /inventariable/:id/img
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+
+## Eliminar un inventariable
+
+
+
+	DELETE /inventariable/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+
+## Obtiene la imagen de un inventariable
+
+
+
+	GET /inventariable/img:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Obtener los datos de un inventariable
+
+
+
+	GET /inventariable/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Obtener la lista de todos los inventariables
+
+
+
+	GET /inventariable
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Obtener los tipos de inventariable
+
+
+
+	GET /inventariable/tipos
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Obtener todas las ubicaciones
+
+
+
+	GET /inventariable/ubicaciones
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
 
 # Ticket
 
@@ -458,7 +456,7 @@
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
 
 ## Obtiene la lista de usuarios
 

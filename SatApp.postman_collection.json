@@ -81,7 +81,7 @@
 								},
 								{
 									"key": "username",
-									"value": "luismi.lopez@salesianos.edu",
+									"value": "admin@administrador.com",
 									"type": "string"
 								}
 							]
@@ -223,7 +223,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjcwOTc5Mn0.7vbIYdx-lm06mYgv8NkYc2YRd963K09AkTT-JjkzCXw",
 									"type": "string"
 								}
 							]
@@ -256,6 +256,11 @@
 								{
 									"key": "descripcion",
 									"value": "i7 9th gen, 16GB, 512 SSD",
+									"type": "text"
+								},
+								{
+									"key": "ubicacion",
+									"value": "AULA07",
 									"type": "text"
 								}
 							]
@@ -487,7 +492,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTQxYmQ2NmVkMGQyNDY2ZWJmNmQ3YiIsImlhdCI6MTU4MjU3MzczN30.y1QNL6BsTl8yN0Ud5Q5e8S8J9ZQeaT6YYX-RgavULnU",
 									"type": "string"
 								}
 							]
@@ -502,6 +507,34 @@
 							"path": [
 								"inventariable",
 								"tipos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todas las ubicaciones",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjcwOTc5Mn0.7vbIYdx-lm06mYgv8NkYc2YRd963K09AkTT-JjkzCXw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventariable/ubicaciones",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"ubicaciones"
 							]
 						}
 					},

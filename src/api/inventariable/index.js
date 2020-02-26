@@ -12,40 +12,38 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
 const router = new Router()
-const { codigo, tipo, nombre, descripcion, imagen } = schema.tree
+const { codigo, tipo, nombre, descripcion, imagen, ubicacion } = schema.tree
 
 /**
- * @api {post} /inventariable Create inventariable
- * @apiName CreateInventariable
+ * @api {post} /inventariable Crea un objeto inventariable (PETICIÓN MULTIPARTE)
+ * @apiName CrearInventariable
  * @apiGroup Inventariable
  * @apiPermission admin
- * @apiParam {String} access_token user access token.
- * @apiParam codigo Inventariable's codigo.
- * @apiParam tipo Inventariable's tipo.
- * @apiParam nombre Inventariable's nombre.
- * @apiParam descripcion Inventariable's descripcion.
- * @apiParam imagen Inventariable's imagen.
- * @apiSuccess {Object} inventariable Inventariable's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
+ * @apiParam tipo Tipo de inventariable. A escoger entre ['PC', 'MONITOR', 'IMPRESORA', 'RED', 'PERIFERICO', 'OTRO']
+ * @apiParam nombre Nombre del inventariable
+ * @apiParam descripcion Descripción del inventariable
+ * @apiParam ubicacion Ubicación del inventariable
+ * @apiParam imagen Imagen del inventariable
+ * @apiSuccess {Object} inventariable Datos del inventariable
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 401 Error de permisos
  */
 router.post('/',
   token({ required: true, roles: ['admin'] }),
-  // body({ codigo, tipo, nombre, descripcion, imagen }),
   upload.single('imagen'), 
   create)
 
 /**
- * @api {get} /inventariable Retrieve inventariables
- * @apiName RetrieveInventariables
+ * @api {get} /inventariable Obtener la lista de todos los inventariables
+ * @apiName ObtenerInventariables
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
+ * @apiParam {String} access_token Token JWT de un usuario
  * @apiUse listParams
- * @apiSuccess {Object[]} inventariables List of inventariables.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 user access only.
+ * @apiSuccess {Object[]} inventariables Lista de inventariables
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 401 Error de permisos
  */
 router.get('/',
   token({ required: true }),
@@ -54,15 +52,14 @@ router.get('/',
 
 
 /**
- * @api {get} /inventariable/img:id Retrieve inventariable img
- * @apiName RetrieveInventariableImage
+ * @api {get} /inventariable/img:id Obtiene la imagen de un inventariable
+ * @apiName ObtenerImagenInventariable
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiSuccess {Object} inventariable Inventariable's image.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} inventariable Imagen del inventariable
+ * @apiError 404 Inventariable no encontrado.
+ * @apiError 401 Error de permisos
  */
 router.get('/img/:id',
   token({required:true}),
@@ -70,15 +67,15 @@ router.get('/img/:id',
 
 
 /**
- * @api {get} /inventariable/ubicaciones Retrieve ubicaciones
- * @apiName RetrieveUbicaciones
+ * @api {get} /inventariable/ubicaciones Obtener todas las ubicaciones
+ * @apiName ObtenerUbicaciones
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
+ * @apiParam {String} access_token Token JWT de un usuario
  * @apiSuccess {String[]} Array de ubicaciones.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 404 No hay ningún inventariable y por tanto, ninguna ubicación
+ * @apiError 401 Error de privilegios
  */
 router.get('/ubicaciones',
   token({required: true}),
@@ -87,15 +84,14 @@ router.get('/ubicaciones',
 
 
 /**
- * @api {get} /inventariable/tipos Retrieve tipos
- * @apiName RetrieveTipos
+ * @api {get} /inventariable/tipos Obtener los tipos de inventariable
+ * @apiName ObtenerTipos
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
+ * @apiParam {String} access_token Token JWT de un usuario
  * @apiSuccess {String[]} Array de tipos.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 No hay tipos.
- * @apiError 401 user access only.
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 401 Error de privilegios
  */
 router.get('/tipos',
   token({required: true}),
@@ -104,51 +100,50 @@ router.get('/tipos',
 
 
 /**
- * @api {get} /inventariable/:id Retrieve inventariable
- * @apiName RetrieveInventariable
+ * @api {get} /inventariable/:id Obtener los datos de un inventariable
+ * @apiName ObtenerInventariable
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiSuccess {Object} inventariable Inventariable's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} inventariable Datos del inventariable
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 404 No hay ningún inventariable y por tanto, ninguna ubicación
+ * @apiError 401 Error de privilegios
  */
 router.get('/:id',
   token({ required: true }),
   show)
 
 /**
- * @api {put} /inventariable/:id Update inventariable
- * @apiName UpdateInventariable
+ * @api {put} /inventariable/:id Actualizar un inventariable
+ * @apiName ActualizarInventariable
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiParam codigo Inventariable's codigo.
- * @apiParam tipo Inventariable's tipo.
- * @apiParam nombre Inventariable's nombre.
- * @apiParam descripcion Inventariable's descripcion.
- * @apiSuccess {Object} inventariable Inventariable's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
+ * @apiParam nombre Nombre
+ * @apiParam descripcion Descripción
+ * @apiParam descripcion Ubicación
+ * @apiSuccess {Object} inventariable Datos del inventariable
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 404 No hay ningún inventariable y por tanto, ninguna ubicación
+ * @apiError 401 Error de privilegios
  */
 router.put('/:id',
   token({ required: true, roles: ['admin'] }),
-  body({ codigo, tipo, nombre, descripcion, imagen }),
+  body({ nombre, descripcion, ubicacion }),
   update)
 
 /**
- * @api {put} /inventariable/:id/img Update inventariable's image
- * @apiName UpdateInventariableImage
+ * @api {put} /inventariable/:id/img Actualizar la imagen de un inventariable (PETICIÓN MULTIPARTE)
+ * @apiName ActualizarImagenInventariable
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiParam imagen Inventariable's imagen.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
+ * @apiParam imagen Nueva imagen del inventariable
  * @apiSuccess {Object} inventariable Inventariable's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiError {Object} 400 Algún parámetro no es correcto
+ * @apiError 404 No hay ningún inventariable y por tanto, ninguna ubicación
+ * @apiError 401 Error de privilegios
  */
 router.put('/:id/img',
   token({ required: true, roles: ['admin'] }),
@@ -157,34 +152,31 @@ router.put('/:id/img',
 
 
 /**
- * @api {delete} /inventariable/:id Delete inventariable
- * @apiName DeleteInventariable
+ * @api {delete} /inventariable/:id Eliminar un inventariable
+ * @apiName EliminarInventariable
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
  * @apiSuccess (Success 204) 204 No Content.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiError 404 No hay ningún inventariable y por tanto, ninguna ubicación
+ * @apiError 401 Error de privilegios
  */
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
   destroy)
 
 /**
- * @api {delete} /inventariable/:id/img Delete inventariable's image
- * @apiName DeleteInventariableImage
+ * @api {delete} /inventariable/:id/img Eliminar una imagen de un inventariable
+ * @apiName EliminarImagenInventariable
  * @apiGroup Inventariable
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiSuccess (Success 200) 200 Inventariable's data.
- * @apiError 404 Inventariable not found.
- * @apiError 401 user access only.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
+ * @apiSuccess (Success 200) 200 Datos del inventariable
+ * @apiError 404 No hay ningún inventariable y por tanto, ninguna ubicación
+ * @apiError 401 Error de privilegios
  */
 router.delete('/:id/img',
   token({ required: true, roles: ['admin'] }),
   destroy)
-
-
-
 
 export default router
