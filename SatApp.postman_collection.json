@@ -1,0 +1,610 @@
+{
+	"info": {
+		"_postman_id": "431966b0-9e93-412f-b8c2-700dee2282f2",
+		"name": "SatApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Registro de usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/lmlopez/Desktop/avatar.png"
+								},
+								{
+									"key": "name",
+									"value": "Luis Miguel",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "luismi.lopez@salesianos.edu",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users?access_token=ghWxyw0iJjdXdSsuBv9NZsF5WcRvHSxz",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "ghWxyw0iJjdXdSsuBv9NZsF5WcRvHSxz"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "luismi.lopez@salesianos.edu",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/auth?access_token=ghWxyw0iJjdXdSsuBv9NZsF5WcRvHSxz",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "ghWxyw0iJjdXdSsuBv9NZsF5WcRvHSxz"
+								},
+								{
+									"key": "email",
+									"value": "luismi.lopez@salesianos.edu",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de un usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjQ1MTIyMX0.nyEhn5mIeyeQQyD1NrDlpD4XYFzbuMCM-rH0jmU9Us8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/img/5e524a15c8128331077feaae",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"img",
+								"5e524a15c8128331077feaae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validar usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjY2MzY1NH0.LctrISpFFyYhnkAZ47qL41HkJnf-bjj9bPxA3MdCh7M",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/5e5588648c69d113c4e1a31b/validate",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"5e5588648c69d113c4e1a31b",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listado de usuarios no validados",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjY2MzY1NH0.LctrISpFFyYhnkAZ47qL41HkJnf-bjj9bPxA3MdCh7M",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/no-validated",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"no-validated"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Inventariables",
+			"item": [
+				{
+					"name": "Nuevo Inventariable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/Users/lmlopez/Desktop/ordenador.jpeg"
+								},
+								{
+									"key": "codigo",
+									"value": "PC1234567",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "PC",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Ordenador Lalala",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "i7 9th gen, 16GB, 512 SSD",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventariable",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de un inventariable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventariable/img/5e539cf43bd3543bcabe423d",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"img",
+								"5e539cf43bd3543bcabe423d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los inventariables",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventariable",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener un inventariable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventariable/5e5398be5732dd3b87180d60",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"5e5398be5732dd3b87180d60"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar un inventariable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventariable/5e5398be5732dd3b87180d60",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"5e5398be5732dd3b87180d60"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar inventariable (todos los campos menos la imagen)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\": \"Ordenador Lololo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventariable/5e5399eb5732dd3b87180d6b",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"5e5399eb5732dd3b87180d6b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar solo la imagen",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/Users/lmlopez/Desktop/estropeado2.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/inventariable/5e539cf43bd3543bcabe423d/img",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"5e539cf43bd3543bcabe423d",
+								"img"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener los tipos de inventariables",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjUzNjYyMn0.v9wS2j6zYZ1fYbUyR7_kSFSduoS6zv6178bds1f7HbE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/inventariable/tipos",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"inventariable",
+								"tipos"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Ticket",
+			"item": [
+				{
+					"name": "Nuevo Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjQ4ODQ2M30.0KfOk7vSoaShlh__AlevhiKD8wZrVu7PEfrZ7JWtGpA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fotos",
+									"type": "file",
+									"src": "/Users/lmlopez/Desktop/estropeado1.jpg"
+								},
+								{
+									"key": "fotos",
+									"type": "file",
+									"src": "/Users/lmlopez/Desktop/estropeado2.jpg"
+								},
+								{
+									"key": "titulo",
+									"value": "El PC se ha estropeado",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "asñkdf añskf añsljf añldjkf añlsfj asñldfjk añdlkf asñdklf añsdjf asñlkdfj askfjañlks falks fjañklsd fjañksdl fañksdfñalsjfaksñ fañsk fañskjd fañfj",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/ticket",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener imagen de un Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjQ4ODQ2M30.0KfOk7vSoaShlh__AlevhiKD8wZrVu7PEfrZ7JWtGpA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/ticket/img/5e52dc5f5a6ba935c8d2e79a/123",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ticket",
+								"img",
+								"5e52dc5f5a6ba935c8d2e79a",
+								"123"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
