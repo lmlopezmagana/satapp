@@ -34,7 +34,20 @@ export const showMe = ({ user }, res) =>
 
 // export const create = ({ bodymen: { body } }, res, next) => {
 export const create = (req, res, next) => {
-  User.create({
+  let nuevoUsuario = {
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+  }
+
+  if (req.file != undefined) {
+    nuevoUsuario.picture = {
+      data: req.file.buffer.toString('base64'),
+      contentType: req.file.mimetype
+    }
+  }
+  User.create(nuevoUsuario)
+  /*User.create({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
@@ -42,7 +55,7 @@ export const create = (req, res, next) => {
       data: req.file.buffer.toString('base64'),
       contentType: req.file.mimetype
     }
-  })
+  })*/
     /*.then(user => {
       sign(user.id)
         .then((token) => ({ token, user: user.view(true) }))

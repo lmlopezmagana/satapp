@@ -40,7 +40,8 @@ const ticketSchema = new Schema({
     ref: 'Inventariable'
   },
   anotaciones: {
-    type: String
+    type: [Schema.ObjectId],
+    ref: 'Anotacion'
   },
   asignaciones: {
     type: [asignacionSchema]
@@ -70,7 +71,7 @@ ticketSchema.methods = {
       titulo: this.titulo,
       descripcion: this.descripcion,
       inventariable: this.inventariable,
-      anotaciones: this.anotaciones,
+      anotaciones: this.anotaciones.map((anotacion) => anotacion.view(full)),
       asignaciones: this.asignaciones,
       fotos: this.fotos.map((foto, i) => '/ticket/img/'+this.id+'/'+i),
       createdAt: this.createdAt,

@@ -28,6 +28,7 @@ export const create = (req, res, next) => {
   
   Ticket.create(nuevoTicket)
     .then((ticket) => ticket.populate('inventariable').execPopulate())
+    .then((ticket) => ticket.populate('tecnico_id').execPopulate())
     .then((ticket) => ticket.view(true))
     .then(success(res, 201))
     .catch(next)

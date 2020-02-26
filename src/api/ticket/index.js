@@ -15,15 +15,16 @@ const router = new Router()
 const { fecha_creacion, estado, titulo, descripcion, anotaciones, asignaciones, fotos, usuario } = schema.tree
 
 /**
- * @api {post} /tickets Create ticket
- * @apiName CreateTicket
+ * @api {post} /tickets Crea un nuevo ticket (PETICIÓN MULTIPARTE)
+ * @apiName CrearTicket
  * @apiGroup Ticket
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiParam titulo Ticket's titulo.
- * @apiParam descripcion Ticket's descripcion.
- * @apiParam fotos Ticket's fotos.
- * @apiSuccess {Object} ticket Ticket's data.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiParam titulo Título del ticket
+ * @apiParam descripcion Descripción del ticket
+ * @apiParam tecnico ID del técnico al que se le asigna el ticket (optativo)
+ * @apiParam {files} fotos Fotos del ticket (puede no llevar ninguna)
+ * @apiSuccess {Object} ticket Datos del ticket
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Ticket not found.
  * @apiError 401 user access only.
