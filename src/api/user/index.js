@@ -212,7 +212,7 @@ router.delete('/:id/img',
  * @apiName ConvertirEnTecnico
  * @apiGroup User
  * @apiPermission admin
- * @apiParam {String} access_token Token JWT de un usuario
+ * @apiParam {String} access_token Token JWT de un usuario administrador
  * @apiSuccess {Object} user Datos del usuario
  * @apiError 401 El usuario no tiene privilegios.
  * @apiError 404 Usuario no encontrado.
