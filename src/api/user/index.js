@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { middleware as query } from 'querymen'
 import { middleware as body } from 'bodymen'
 import { password as passwordAuth, master, token } from '../../services/passport'
-import { index, showMe, show, create, updateName, updateImg,  updatePassword, destroy, getImage, deleteImg, validarUsuario, noValidated } from './controller'
+import { index, showMe, show, create, updateName, updateImg,  updatePassword, destroy, getImage, deleteImg, validarUsuario, noValidated, convertirEnTecnico } from './controller'
 import User, { schema } from './model'
 export User, { schema } from './model'
 
@@ -207,6 +207,22 @@ router.delete('/:id/img',
 
 
 // TODO Añadir petición de promoción de un usuario a técnico
+/**
+ * @api {put} /users/:id/tecnico Cambia el rol de un usuario a técnico
+ * @apiName ConvertirEnTecnico
+ * @apiGroup User
+ * @apiPermission admin
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} user Datos del usuario
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
+ */
+router.put('/:id/tecnico',
+  token({ required: true, roles: ['admin'] }),
+  convertirEnTecnico)
+
+
+
 
 /**
   Se lanza al inicializar. Si no hay ningún administrador, creamos uno

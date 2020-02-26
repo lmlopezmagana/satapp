@@ -1,4 +1,4 @@
-# satapp v1.0.2
+# satapp v1.0.3
 
 
 
@@ -37,6 +37,7 @@
 	- [Actualizar usuario (no actualiza la imagen)](#actualizar-usuario-(no-actualiza-la-imagen))
 	- [Borrar imagen del usuario](#borrar-imagen-del-usuario)
 	- [Borrar usuario](#borrar-usuario)
+	- [Cambia el rol de un usuario a técnico](#cambia-el-rol-de-un-usuario-a-técnico)
 	- [Obtiene la lista de usuarios](#obtiene-la-lista-de-usuarios)
 	- [Obtiene la lista de usuarios no validados](#obtiene-la-lista-de-usuarios-no-validados)
 	- [Obtiene la imagen de un usuario](#obtiene-la-imagen-de-un-usuario)
@@ -445,6 +446,19 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>User Token JWT de un usuario administrador</p>							|
+
+## Cambia el rol de un usuario a técnico
+
+
+
+	PUT /users/:id/tecnico
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
 
 ## Obtiene la lista de usuarios
 

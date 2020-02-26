@@ -135,6 +135,30 @@ export const validarUsuario = (req, res, next) =>
     .then(success(res))
     .catch(next)
 
+export const convertirEnTecnico = (req, res, next) =>
+  User.findById(req.params.id === 'me' ? req.user.id : req.params.id)
+    .then(notFound(res))
+    .then((result) => {
+      if (!result) return null
+      const isAdmin = req.user.role === 'admin'
+      const isSelfUpdate = req.user.id === result.id
+      if (!isSelfUpdate && !isAdmin) {
+        res.status(401).json({
+          valid: false,
+          message: 'You can\'t change other user\'s data'
+        })
+        return null
+      }
+      return result
+    })
+    // .then((user) => user ? Object.assign(user, body).save() : null)
+    .then((user) => {
+      user.role = 'tecnico'
+      return user.save()
+    })
+    .then((user) => user ? user.view(true) : null)
+    .then(success(res))
+    .catch(next)
 
 export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =>
   User.findById(params.id === 'me' ? user.id : params.id)
