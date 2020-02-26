@@ -7,7 +7,10 @@ const imgSchema = new Schema({
 });
 
 const asignacionSchema = new Schema({
-    tecnico_id: Schema.ObjectId,
+    tecnico_id: {
+      type: Schema.ObjectId,
+      ref: 'User'
+      },
     fecha_asignacion: {
       type: Date,
       default: Date.now()
@@ -72,7 +75,15 @@ ticketSchema.methods = {
       descripcion: this.descripcion,
       inventariable: this.inventariable,
       anotaciones: this.anotaciones.map((anotacion) => anotacion.view(full)),
-      asignaciones: this.asignaciones,
+      asignaciones: this.asignaciones.map((asignacion) => {
+        return {
+          fecha_asignacion: asignacion.fecha_asignacion,
+          tecnico_id : asignacion.tecnico_id._id,
+          name: asignacion.tecnico_id.name,
+          email: asignacion.tecnico_id.email,
+          picture: '/users/img/'+ asignacion.tecnico_id._id
+        }
+      }),
       fotos: this.fotos.map((foto, i) => '/ticket/img/'+this.id+'/'+i),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt

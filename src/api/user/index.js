@@ -82,7 +82,7 @@ router.get('/:id',
  * @apiParam {String} email Email
  * @apiParam {String{6..}} password Contraseña
  * @apiParam {String} [name] User's Nombre.
- * @apiParam {file} [avatar] Imagen del usuario
+ * @apiParam {file} [avatar] Imagen del usuario (ya no es obligatoria)
  * @apiSuccess (Sucess 201) {Object} user Datos del usuario
  * @apiError {Object} 400 Algún parámetro no es válido.
  * @apiError 401 Error en la MASTERKEY
@@ -204,9 +204,6 @@ router.delete('/:id/img',
   token({ required: true }),
   deleteImg)
 
-
-
-// TODO Añadir petición de promoción de un usuario a técnico
 /**
  * @api {put} /users/:id/tecnico Cambia el rol de un usuario a técnico
  * @apiName ConvertirEnTecnico
@@ -220,8 +217,6 @@ router.delete('/:id/img',
 router.put('/:id/tecnico',
   token({ required: true, roles: ['admin'] }),
   convertirEnTecnico)
-
-
 
 
 /**

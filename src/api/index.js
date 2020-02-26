@@ -34,4 +34,5 @@ router.use('/auth', auth)
 router.use('/ticket', ticket)
 router.use('/inventariable', inventariable)
 
+
 export default router

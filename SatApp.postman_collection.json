@@ -208,6 +208,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Convertir usuario en técnico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjczODU0OH0.wwGIXnYdwRbKgMoAlWhmV0wjjedD3nxr-8fKLhvMPz4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/users/5e5588648c69d113c4e1a31b/tecnico",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users",
+								"5e5588648c69d113c4e1a31b",
+								"tecnico"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -554,7 +583,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTI0YTE1YzgxMjgzMzEwNzdmZWFhZSIsImlhdCI6MTU4MjQ4ODQ2M30.0KfOk7vSoaShlh__AlevhiKD8wZrVu7PEfrZ7JWtGpA",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjczODU0OH0.wwGIXnYdwRbKgMoAlWhmV0wjjedD3nxr-8fKLhvMPz4",
 									"type": "string"
 								}
 							]
@@ -630,6 +659,115 @@
 								"img",
 								"5e52dc5f5a6ba935c8d2e79a",
 								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar estado ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"estado\": \"EN_PROCESO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/ticket/5e56b3e0759d58146d239dd0/estado",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ticket",
+								"5e56b3e0759d58146d239dd0",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Asignar ticket a un tecnico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjczODU0OH0.wwGIXnYdwRbKgMoAlWhmV0wjjedD3nxr-8fKLhvMPz4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"tecnico_id\": \"5e5588648c69d113c4e1a31b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/ticket/5e56b3e0759d58146d239dd0/asignar",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ticket",
+								"5e56b3e0759d58146d239dd0",
+								"asignar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener tickets asignados mí (como técnico)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlNTU4N2RlNDcwZDIzMTNhYjhmZDU5YiIsImlhdCI6MTU4MjczODU0OH0.wwGIXnYdwRbKgMoAlWhmV0wjjedD3nxr-8fKLhvMPz4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/ticket/asignados/me",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"ticket",
+								"asignados",
+								"me"
 							]
 						}
 					},

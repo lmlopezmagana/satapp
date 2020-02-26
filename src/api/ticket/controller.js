@@ -1,4 +1,4 @@
-import { success, notFound, authorOrAdmin } from '../../services/response/'
+import { success, notFound, authorOrAdmin, adminOrTecnico } from '../../services/response/'
 import { Ticket } from '.'
 
 export const create = (req, res, next) => {
@@ -28,7 +28,7 @@ export const create = (req, res, next) => {
   
   Ticket.create(nuevoTicket)
     .then((ticket) => ticket.populate('inventariable').execPopulate())
-    .then((ticket) => ticket.populate('tecnico_id').execPopulate())
+    .then((ticket) => ticket.populate('creado_por').execPopulate())
     .then((ticket) => ticket.view(true))
     .then(success(res, 201))
     .catch(next)
@@ -78,4 +78,72 @@ export const getImage = ({ params }, res, next) =>
       res.contentType(ticket.fotos[params.index].contentType)
       res.send(Buffer.from(ticket.fotos[params.index].data,'base64'))
     })
+    .catch(next)
+
+
+// getTicketsUsuarioActual, getTicketsDispositivo
+
+export const getTicketsUsuarioActual = (req, { querymen: { query, select, cursor } }, res, next) => {
+  query.creado_por = req.user._id
+  Ticket.find(query, select, cursor)
+    // .populate('creado_por')
+    .then((tickets) => tickets.map((ticket) => ticket.view()))
+    .then(success(res))
+    .catch(next)
+}
+
+export const getTicketsAsignadosUsuarioActual = (req, { querymen: { query, select, cursor } }, res, next) => {
+  query.asignaciones.tecnico_id = req.user._id
+  Ticket.find(query, select, cursor)
+    .populate('creado_por')
+    .then((tickets) => tickets.map((ticket) => ticket.view()))
+    .then(success(res))
+    .catch(next)
+}
+
+export const getTicketsDispositivo = (req, { querymen: { query, select, cursor } }, res, next) => {
+  query.inventariable = req.params.id
+  Ticket.find(query, select, cursor)
+    .populate('creado_por')
+    .then((tickets) => tickets.map((ticket) => ticket.view()))
+    .then(success(res))
+    .catch(next)
+}
+
+export const cambiarEstado = ({ user, bodymen: { body }, params }, res, next) =>
+  Ticket.findById(params.id)
+    // .populate('creado_por')
+    .then(notFound(res))
+    .then(adminOrTecnico(res, user))
+    .then((ticket) => {
+      ticket.estado = body.estado
+      return ticket.save()
+    })
+    .then((ticket) => ticket.populate('creado_por').execPopulate())
+    .then((ticket) => ticket.populate('inventariable').execPopulate())
+    .then((ticket) => ticket.populate('asignaciones.tecnico_id').execPopulate())
+    .then((ticket) => ticket ? ticket.view(true) : null)
+    .then(success(res))
+    .catch(next)
+
+export const asignarTicket = ({ user, bodymen: { body }, params }, res, next) =>
+  Ticket.findById(params.id)
+    // .populate('creado_por')
+    .then(notFound(res))
+    .then(adminOrTecnico(res, user))
+    .then((ticket) => {
+      if (ticket.asignaciones == undefined) {
+        ticket.asignaciones = new Array()
+      }
+      ticket.asignaciones.push({
+          tecnico_id: body.tecnico_id
+      })
+      ticket.estado = 'ASIGNADA'
+      return ticket.save()
+    })
+    .then((ticket) => ticket.populate('creado_por').execPopulate())
+    .then((ticket) => ticket.populate('inventariable').execPopulate())
+    .then((ticket) => ticket.populate('asignaciones.tecnico_id').execPopulate())
+    .then((ticket) => ticket ? ticket.view(true) : null)
+    .then(success(res))
     .catch(next)

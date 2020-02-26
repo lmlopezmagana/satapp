@@ -1,4 +1,4 @@
-# satapp v1.0.4
+# satapp v1.1.0
 
 
 
@@ -25,11 +25,16 @@
 	- [Obtener todas las ubicaciones](#obtener-todas-las-ubicaciones)
 	
 - [Ticket](#ticket)
-	- [Create ticket](#create-ticket)
-	- [Delete ticket](#delete-ticket)
-	- [Retrieve ticket](#retrieve-ticket)
-	- [Retrieve tickets](#retrieve-tickets)
-	- [Update ticket](#update-ticket)
+	- [Actualizar estado de un ticket](#actualizar-estado-de-un-ticket)
+	- [Actualizar ticket](#actualizar-ticket)
+	- [Asignar un ticket a un tecnico](#asignar-un-ticket-a-un-tecnico)
+	- [Crea un nuevo ticket (PETICIÓN MULTIPARTE)](#crea-un-nuevo-ticket-(petición-multiparte))
+	- [Borrar ticket](#borrar-ticket)
+	- [Obtener un ticket](#obtener-un-ticket)
+	- [Obtener todos los tickets](#obtener-todos-los-tickets)
+	- [Obtener todos los tickets asignados al usuario actual](#obtener-todos-los-tickets-asignados-al-usuario-actual)
+	- [Obtener todos los tickets de un inventariable](#obtener-todos-los-tickets-de-un-inventariable)
+	- [Obtener todos los tickets dados de alta por el usuario actual](#obtener-todos-los-tickets-dados-de-alta-por-el-usuario-actual)
 	
 - [User](#user)
 	- [Actualizar la imagen del usuario (PETICIÓN MULTIPARTE)](#actualizar-la-imagen-del-usuario-(petición-multiparte))
@@ -40,6 +45,7 @@
 	- [Cambia el rol de un usuario a técnico](#cambia-el-rol-de-un-usuario-a-técnico)
 	- [Obtiene la lista de usuarios](#obtiene-la-lista-de-usuarios)
 	- [Obtiene la lista de usuarios no validados](#obtiene-la-lista-de-usuarios-no-validados)
+	- [Obtiene una imagen del Ticket](#obtiene-una-imagen-del-ticket)
 	- [Obtiene la imagen de un usuario](#obtiene-la-imagen-de-un-usuario)
 	- [Obtener un usuario por su ID](#obtener-un-usuario-por-su-id)
 	- [Obtiene el usuario actual](#obtiene-el-usuario-actual)
@@ -291,85 +297,163 @@
 
 # Ticket
 
-## Create ticket
+## Actualizar estado de un ticket
 
 
 
-	POST /tickets
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| titulo			| 			|  <p>Ticket's titulo.</p>							|
-| descripcion			| 			|  <p>Ticket's descripcion.</p>							|
-| fotos			| 			|  <p>Ticket's fotos.</p>							|
-
-## Delete ticket
-
-
-
-	DELETE /tickets/:id
+	PUT /ticket/:id/estado
 
 
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
+| access_token			| String			|  <p>Token JWT de un usuario técnico o un administrador</p>							|
+| estado			| 			|  <p>Estado de la incidencia. A elegir entre ['PENDIENTE_ASIGNACION', 'ASIGNADA', 'EN_PROCESO', 'SOLUCIONADA'],</p>							|
 
-## Retrieve ticket
-
-
-
-	GET /tickets/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-
-## Retrieve tickets
+## Actualizar ticket
 
 
 
-	GET /tickets
+	PUT /ticket/:id
 
 
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
+| access_token			| String			|  <p>Token JWT del usuario que creó el ticket o un administrador</p>							|
+| titulo			| 			|  <p>Título</p>							|
+| descripcion			| 			|  <p>Descripción</p>							|
+
+## Asignar un ticket a un tecnico
+
+
+
+	PUT /ticket/:id/asignar
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario técnico o un administrador</p>							|
+| tecnico			| 			|  <p>ID del usuario técnico a la que se le asigna la incidencia</p>							|
+
+## Crea un nuevo ticket (PETICIÓN MULTIPARTE)
+
+
+
+	POST /ticket
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| titulo			| 			|  <p>Título del ticket</p>							|
+| descripcion			| 			|  <p>Descripción del ticket</p>							|
+| tecnico			| 			|  <p>ID del técnico al que se le asigna el ticket (optativo)</p>							|
+| fotos			| files			|  <p>Fotos del ticket (puede no llevar ninguna)</p>							|
+
+## Borrar ticket
+
+
+
+	DELETE /ticket/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador o el autor del ticket</p>							|
+
+## Obtener un ticket
+
+
+
+	GET /ticket/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Obtener todos los tickets
+
+
+
+	GET /ticket
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
 | q			| String			| **optional** <p>Query to search.</p>							|
 | page			| Number			| **optional** <p>Page number.</p>							|
 | limit			| Number			| **optional** <p>Amount of returned items.</p>							|
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
 | fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
-## Update ticket
+## Obtener todos los tickets asignados al usuario actual
 
 
 
-	PUT /tickets/:id
+	GET /ticket/asignados/me
 
 
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| fecha_creacion			| 			|  <p>Ticket's fecha_creacion.</p>							|
-| estado			| 			|  <p>Ticket's estado.</p>							|
-| titulo			| 			|  <p>Ticket's titulo.</p>							|
-| descripcion			| 			|  <p>Ticket's descripcion.</p>							|
-| anotaciones			| 			|  <p>Ticket's anotaciones.</p>							|
-| asignaciones			| 			|  <p>Ticket's asignaciones.</p>							|
-| fotos			| 			|  <p>Ticket's fotos.</p>							|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Obtener todos los tickets de un inventariable
+
+
+
+	GET /ticket/inventariable/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Obtener todos los tickets dados de alta por el usuario actual
+
+
+
+	GET /ticket/user/me
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 # User
 
@@ -494,6 +578,19 @@
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
 | fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
+## Obtiene una imagen del Ticket
+
+
+
+	GET /img/:id/:index
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
 ## Obtiene la imagen de un usuario
 
 
@@ -548,7 +645,7 @@
 | email			| String			|  <p>Email</p>							|
 | password			| String			|  <p>Contraseña</p>							|
 | name			| String			| **optional** <p>User's Nombre.</p>							|
-| avatar			| file			| **optional** <p>Imagen del usuario</p>							|
+| avatar			| file			| **optional** <p>Imagen del usuario (ya no es obligatoria)</p>							|
 
 ## Valida un usuario
 

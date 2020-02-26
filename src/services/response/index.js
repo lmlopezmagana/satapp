@@ -24,3 +24,18 @@ export const authorOrAdmin = (res, user, userField) => (entity) => {
   }
   return null
 }
+
+// AdminOrTecnico
+
+export const adminOrTecnico = (res, user) => (entity) => {
+  if (entity) {
+    const isAdmin = user.role === 'admin'
+    // const isAuthor = entity[userField] && entity[userField].equals(user.id)
+    const isTecnico = user.role === 'tecnico'
+    if (isTecnico || isAdmin) {
+      return entity
+    }
+    res.status(401).end()
+  }
+  return null
+}
