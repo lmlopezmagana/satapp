@@ -1,4 +1,4 @@
-# satapp v0.0.0
+# satapp v1.0.2
 
 
 
@@ -19,6 +19,7 @@
 	- [Retrieve inventariable](#retrieve-inventariable)
 	- [Retrieve inventariable img](#retrieve-inventariable-img)
 	- [Retrieve inventariables](#retrieve-inventariables)
+	- [Retrieve tipos](#retrieve-tipos)
 	- [Retrieve ubicaciones](#retrieve-ubicaciones)
 	- [Update inventariable](#update-inventariable)
 	- [Update inventariable&#39;s image](#update-inventariable&#39;s-image)
@@ -31,14 +32,18 @@
 	- [Update ticket](#update-ticket)
 	
 - [User](#user)
-	- [Create user](#create-user)
-	- [Delete user](#delete-user)
-	- [Get user&#39;s avatar](#get-user&#39;s-avatar)
-	- [Retrieve current user](#retrieve-current-user)
-	- [Retrieve user](#retrieve-user)
-	- [Retrieve users](#retrieve-users)
-	- [Update password](#update-password)
-	- [Update user&#39;s name](#update-user&#39;s-name)
+	- [Actualizar la imagen del usuario (PETICIÓN MULTIPARTE)](#actualizar-la-imagen-del-usuario-(petición-multiparte))
+	- [Actualizar contraseña](#actualizar-contraseña)
+	- [Actualizar usuario (no actualiza la imagen)](#actualizar-usuario-(no-actualiza-la-imagen))
+	- [Borrar imagen del usuario](#borrar-imagen-del-usuario)
+	- [Borrar usuario](#borrar-usuario)
+	- [Obtiene la lista de usuarios](#obtiene-la-lista-de-usuarios)
+	- [Obtiene la lista de usuarios no validados](#obtiene-la-lista-de-usuarios-no-validados)
+	- [Obtiene la imagen de un usuario](#obtiene-la-imagen-de-un-usuario)
+	- [Obtener un usuario por su ID](#obtener-un-usuario-por-su-id)
+	- [Obtiene el usuario actual](#obtiene-el-usuario-actual)
+	- [Registro de usuario (PETICIÓN MULTIPARTE)](#registro-de-usuario-(petición-multiparte))
+	- [Valida un usuario](#valida-un-usuario)
 	
 
 
@@ -228,6 +233,19 @@
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
 | fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
+## Retrieve tipos
+
+
+
+	GET /inventariable/tipos
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
 ## Retrieve ubicaciones
 
 
@@ -356,7 +374,154 @@
 
 # User
 
-## Create user
+## Actualizar la imagen del usuario (PETICIÓN MULTIPARTE)
+
+
+
+	PUT /users/:id/img
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| avatar			| String			| **optional** <p>Imagen del usuario</p>							|
+
+## Actualizar contraseña
+
+
+
+	PUT /users/:id/password
+
+### Headers
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| Authorization			| String			|  <p>Autorización básica con nombre de usuario y contraseña</p>							|
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| password			| String			|  <p>Nueva Contraseña</p>							|
+
+## Actualizar usuario (no actualiza la imagen)
+
+
+
+	PUT /users/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| name			| String			| **optional** <p>Nombre del usuario</p>							|
+
+## Borrar imagen del usuario
+
+
+
+	DELETE /users/:id/img
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Borrar usuario
+
+
+
+	DELETE /users/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>User Token JWT de un usuario administrador</p>							|
+
+## Obtiene la lista de usuarios
+
+
+
+	GET /users
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Obtiene la lista de usuarios no validados
+
+
+
+	GET /users/no-validated
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario administrador</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Obtiene la imagen de un usuario
+
+
+
+	GET /img/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Obtener un usuario por su ID
+
+
+
+	GET /users/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Obtiene el usuario actual
+
+
+
+	GET /users/me
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+
+## Registro de usuario (PETICIÓN MULTIPARTE)
 
 
 
@@ -368,106 +533,22 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>Master access_token.</p>							|
-| email			| String			|  <p>User's email.</p>							|
-| password			| String			|  <p>User's password.</p>							|
-| name			| String			| **optional** <p>User's name.</p>							|
-| picture			| String			| **optional** <p>User's picture.</p>							|
-| role			| String			| **optional** <p>User's role.</p>							|
+| email			| String			|  <p>Email</p>							|
+| password			| String			|  <p>Contraseña</p>							|
+| name			| String			| **optional** <p>User's Nombre.</p>							|
+| avatar			| file			| **optional** <p>Imagen del usuario</p>							|
 
-## Delete user
-
-
-
-	DELETE /users/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>User access_token.</p>							|
-
-## Get user&#39;s avatar
+## Valida un usuario
 
 
 
-	GET /img/:id
+	PUT /users/:id/validate
 
 
 ### Parameters
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>User access_token.</p>							|
-
-## Retrieve current user
-
-
-
-	GET /users/me
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>User access_token.</p>							|
-
-## Retrieve user
-
-
-
-	GET /users/:id
-
-
-## Retrieve users
-
-
-
-	GET /users
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>User access_token.</p>							|
-| q			| String			| **optional** <p>Query to search.</p>							|
-| page			| Number			| **optional** <p>Page number.</p>							|
-| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
-| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
-| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
-
-## Update password
-
-
-
-	PUT /users/:id/password
-
-### Headers
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| Authorization			| String			|  <p>Basic authorization with email and password.</p>							|
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| password			| String			|  <p>User's new password.</p>							|
-
-## Update user&#39;s name
-
-
-
-	PUT /users/:id
-
-
-### Parameters
-
-| Name    | Type      | Description                          |
-|---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>User access_token.</p>							|
-| name			| String			| **optional** <p>User's name.</p>							|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
 
 

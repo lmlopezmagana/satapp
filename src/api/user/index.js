@@ -14,79 +14,79 @@ const router = new Router()
 const { email, password, name, picture, role } = schema.tree
 
 /**
- * @api {get} /users Retrieve users
- * @apiName RetrieveUsers
+ * @api {get} /users Obtiene la lista de usuarios
+ * @apiName ListarUsuarios
  * @apiGroup User
  * @apiPermission admin
- * @apiParam {String} access_token User access_token.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
  * @apiUse listParams
- * @apiSuccess {Object[]} users List of users.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Admin access only.
+ * @apiSuccess {Object[]} users Lista de los usuarios
+ * @apiError {Object} 400 Algún parámetro no es válido
+ * @apiError 401 El usuario no tiene privilegios.
  */
 router.get('/',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   query(),
   index)
 
 
 /**
- * @api {get} /users Retrieve users no validated
- * @apiName RetrieveUsersNoValidate
+ * @api {get} /users/no-validated Obtiene la lista de usuarios no validados
+ * @apiName ListarUsuariosNoValidados
  * @apiGroup User
  * @apiPermission admin
- * @apiParam {String} access_token User access_token.
+ * @apiParam {String} access_token Token JWT de un usuario administrador
  * @apiUse listParams
- * @apiSuccess {Object[]} users List of users no validated
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Admin access only.
+ * @apiSuccess {Object[]} users Lista de usuarios no validados
+ * @apiError {Object} 400 Algún parámetro no es válido
+ * @apiError 401 El usuario no tiene privilegios.
  * @apiError 404 No hay usuarios sin validar.
  */
 router.get('/no-validated',
-  token({ required: true }),
+  token({ required: true, roles: ['admin'] }),
   query(),
   noValidated)
 
 
 /**
- * @api {get} /users/me Retrieve current user
- * @apiName RetrieveCurrentUser
+ * @api {get} /users/me Obtiene el usuario actual
+ * @apiName ObtenerUsuarioActual
  * @apiGroup User
  * @apiPermission user
- * @apiParam {String} access_token User access_token.
- * @apiSuccess {Object} user User's data.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} user Datos del usuario
  */
 router.get('/me',
   token({ required: true }),
   showMe)
 
 /**
- * @api {get} /users/:id Retrieve user
- * @apiName RetrieveUser
+ * @api {get} /users/:id Obtener un usuario por su ID
+ * @apiName ObtenerUsuario
  * @apiGroup User
  * @apiPermission user
- * @apiSuccess {Object} user User's data.
- * @apiError 404 User not found.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} user Datos del usuario
+ * @apiError 404 Usuario no encontrado.
  */
 router.get('/:id',
   token({required: true}),
   show)
 
 /**
- * @api {post} /users Create user
- * @apiName CreateUser
+ * @api {post} /users Registro de usuario (PETICIÓN MULTIPARTE)
+ * @apiName RegistrodeUsuario
  * @apiGroup User
  * @apiPermission master
  * @apiParam {String} access_token Master access_token.
- * @apiParam {String} email User's email.
- * @apiParam {String{6..}} password User's password.
- * @apiParam {String} [name] User's name.
- * @apiParam {String} [picture] User's picture.
- * @apiParam {String=user,admin} [role=user] User's role.
- * @apiSuccess (Sucess 201) {Object} user User's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Master access only.
- * @apiError 409 Email already registered.
+ * @apiParam {String} email Email
+ * @apiParam {String{6..}} password Contraseña
+ * @apiParam {String} [name] User's Nombre.
+ * @apiParam {file} [avatar] Imagen del usuario
+ * @apiSuccess (Sucess 201) {Object} user Datos del usuario
+ * @apiError {Object} 400 Algún parámetro no es válido.
+ * @apiError 401 Error en la MASTERKEY
+ * @apiError 409 Email ya registrado
  */
 router.post('/',
   master(),
@@ -94,15 +94,14 @@ router.post('/',
   create)
 
 /**
- * @api {get} /img/:id Get user's avatar
- * @apiName GetUserImage
+ * @api {get} /img/:id Obtiene la imagen de un usuario
+ * @apiName ObtenerImagenUsuario
  * @apiGroup User
  * @apiPermission user
- * @apiParam {String} access_token User access_token.
- * @apiSuccess {Object} user User's image.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Current user or admin access only.
- * @apiError 404 User not found.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} user Imagen del usuario.
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.get('/img/:id',
   token({required:true}),
@@ -110,16 +109,16 @@ router.get('/img/:id',
 
 
 /**
- * @api {put} /users/:id Update user's name
- * @apiName UpdateUser
+ * @api {put} /users/:id Actualizar usuario (no actualiza la imagen)
+ * @apiName ActualizarUsuario
  * @apiGroup User
  * @apiPermission user
- * @apiParam {String} access_token User access_token.
- * @apiParam {String} [name] User's name.
- * @apiSuccess {Object} user User's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Current user or admin access only.
- * @apiError 404 User not found.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiParam {String} [name] Nombre del usuario
+ * @apiSuccess {Object} user Datos del usuario
+ * @apiError {Object} 400 Algún parámetro no es válido.
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.put('/:id',
   token({ required: true }),
@@ -129,30 +128,29 @@ router.put('/:id',
 
 /**
  * @api {put} /users/:id/validate Valida un usuario
- * @apiName ValidateUser
+ * @apiName ValidarUsuaros
  * @apiGroup User
  * @apiPermission admin
- * @apiParam {String} access_token User access_token.
- * @apiSuccess {Object} user User's data.
- * @apiError 401 Current user or admin access only.
- * @apiError 404 User not found.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess {Object} user Datos del usuario
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.put('/:id/validate',
   token({ required: true }),
-  body({ name }),
   validarUsuario)
 
 /**
- * @api {put} /users/:id/img Update user's picture
- * @apiName UpdateUser
+ * @api {put} /users/:id/img Actualizar la imagen del usuario (PETICIÓN MULTIPARTE)
+ * @apiName ActualizarImagenUsuario
  * @apiGroup User
  * @apiPermission user
- * @apiParam {String} access_token User access_token.
- * @apiParam {String} [picture] User's picture.
- * @apiSuccess {Object} user User's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Current user or admin access only.
- * @apiError 404 User not found.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiParam {String} [avatar] Imagen del usuario
+ * @apiSuccess {Object} user Datos del usuario.
+ * @apiError {Object} 400 Some Algun parámetro es erróneo
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.put('/:id/img',
   token({ required: true }),
@@ -162,15 +160,15 @@ router.put('/:id/img',
 
 
 /**
- * @api {put} /users/:id/password Update password
- * @apiName UpdatePassword
+ * @api {put} /users/:id/password Actualizar contraseña
+ * @apiName ActualizarPassword
  * @apiGroup User
- * @apiHeader {String} Authorization Basic authorization with email and password.
- * @apiParam {String{6..}} password User's new password.
- * @apiSuccess (Success 201) {Object} user User's data.
- * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Current user access only.
- * @apiError 404 User not found.
+ * @apiHeader {String} Authorization Autorización básica con nombre de usuario y contraseña
+ * @apiParam {String{6..}} password Nueva Contraseña
+ * @apiSuccess (Success 201) {Object} user Datos del usuario
+ * @apiError {Object} 400 Some Algun parámetro es erróneo
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.put('/:id/password',
   passwordAuth(),
@@ -178,14 +176,14 @@ router.put('/:id/password',
   updatePassword)
 
 /**
- * @api {delete} /users/:id Delete user
- * @apiName DeleteUser
+ * @api {delete} /users/:id Borrar usuario
+ * @apiName BorrarUsuario
  * @apiGroup User
  * @apiPermission admin
- * @apiParam {String} access_token User access_token.
+ * @apiParam {String} access_token User Token JWT de un usuario administrador
  * @apiSuccess (Success 204) 204 No Content.
- * @apiError 401 Admin access only.
- * @apiError 404 User not found.
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.delete('/:id',
   token({ required: true, roles: ['admin'] }),
@@ -193,18 +191,19 @@ router.delete('/:id',
 
 
 /**
- * @api {delete} /users/:id/img Delete user's image
- * @apiName DeleteUser
+ * @api {delete} /users/:id/img Borrar imagen del usuario
+ * @apiName BorrarImagenUsuario
  * @apiGroup User
  * @apiPermission admin
- * @apiParam {String} access_token User access_token.
- * @apiSuccess (Success 200) 200 User's data
- * @apiError 401 Admin access only.
- * @apiError 404 User not found.
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiSuccess (Success 200) 200 Datos del usuario
+ * @apiError 401 El usuario no tiene privilegios.
+ * @apiError 404 Usuario no encontrado.
  */
 router.delete('/:id/img',
-  token({ required: true, roles: ['admin'] }),
+  token({ required: true }),
   deleteImg)
+
 
 
 // TODO Añadir petición de promoción de un usuario a técnico
