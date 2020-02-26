@@ -32,7 +32,7 @@ const config = {
   test: { },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/satapp-dev',
+      uri: process.env.MONGODB_URI || 'mongodb://localhost/satapp-dev',
       options: {
         debug: true
       }
