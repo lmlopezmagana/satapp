@@ -1,13 +1,14 @@
-# satapp v1.1.0
+# satapp v1.1.1
 
 
 
 - [Anotacion](#anotacion)
-	- [Create anotacion](#create-anotacion)
-	- [Delete anotacion](#delete-anotacion)
-	- [Retrieve anotacion](#retrieve-anotacion)
+	- [Crear una anotación](#crear-una-anotación)
+	- [Eliminar una anotacion](#eliminar-una-anotacion)
+	- [Obtener una anotación por su ID](#obtener-una-anotación-por-su-id)
+	- [Obtener las anotaciones de un ticket](#obtener-las-anotaciones-de-un-ticket)
 	- [Retrieve anotacions](#retrieve-anotacions)
-	- [Update anotacion](#update-anotacion)
+	- [Actualizar una anotación](#actualizar-una-anotación)
 	
 - [Auth](#auth)
 	- [Authenticate](#authenticate)
@@ -56,11 +57,11 @@
 
 # Anotacion
 
-## Create anotacion
+## Crear una anotación
 
 
 
-	POST /anotaciones
+	POST /anotacion
 
 
 ### Parameters
@@ -68,10 +69,10 @@
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>user access token.</p>							|
-| fecha			| 			|  <p>Anotacion's fecha.</p>							|
-| cuerpo			| 			|  <p>Anotacion's cuerpo.</p>							|
+| id_ticket			| 			|  <p>ID del ticket al que se le añade la anotación</p>							|
+| cuerpo			| 			|  <p>Cuerpo de la anotación</p>							|
 
-## Delete anotacion
+## Eliminar una anotacion
 
 
 
@@ -82,9 +83,9 @@
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
 
-## Retrieve anotacion
+## Obtener una anotación por su ID
 
 
 
@@ -95,7 +96,25 @@
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
+| access_token			| String			|  <p>user Token JWT de un usuario</p>							|
+
+## Obtener las anotaciones de un ticket
+
+
+
+	GET /anotaciones/ticket
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>Token JWT de un usuario</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
 ## Retrieve anotacions
 
@@ -115,7 +134,7 @@
 | sort			| String[]			| **optional** <p>Order of returned items.</p>							|
 | fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
 
-## Update anotacion
+## Actualizar una anotación
 
 
 
@@ -126,9 +145,8 @@
 
 | Name    | Type      | Description                          |
 |---------|-----------|--------------------------------------|
-| access_token			| String			|  <p>user access token.</p>							|
-| fecha			| 			|  <p>Anotacion's fecha.</p>							|
-| cuerpo			| 			|  <p>Anotacion's cuerpo.</p>							|
+| access_token			| String			|  <p>Token JWT del usuario</p>							|
+| cuerpo			| 			|  <p>Cuerpo de la anotaciópn</p>							|
 
 # Auth
 
@@ -354,6 +372,7 @@
 | access_token			| String			|  <p>Token JWT de un usuario</p>							|
 | titulo			| 			|  <p>Título del ticket</p>							|
 | descripcion			| 			|  <p>Descripción del ticket</p>							|
+| inventariable			| 			|  <p>ID del dispositivo que presenta el fallo (no es obligatorio)</p>							|
 | tecnico			| 			|  <p>ID del técnico al que se le asigna el ticket (optativo)</p>							|
 | fotos			| files			|  <p>Fotos del ticket (puede no llevar ninguna)</p>							|
 

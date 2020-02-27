@@ -3,6 +3,7 @@ import user from './user'
 import auth from './auth'
 import ticket from './ticket'
 import inventariable from './inventariable'
+import anotacion from './anotacion'
 
 const router = new Router()
 
@@ -33,6 +34,7 @@ router.use('/users', user)
 router.use('/auth', auth)
 router.use('/ticket', ticket)
 router.use('/inventariable', inventariable)
+router.use('/anotacion', anotacion)
 
 
 export default router

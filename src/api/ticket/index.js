@@ -12,7 +12,7 @@ const upload = multer({ storage })
 
 
 const router = new Router()
-const { fecha_creacion, estado, titulo, descripcion, anotaciones, asignaciones, fotos, usuario, tecnico_id } = schema.tree
+const { fecha_creacion, estado, titulo, descripcion, anotaciones, asignaciones, fotos, usuario, tecnico_id, inventariable } = schema.tree
 
 /**
  * @api {post} /ticket Crea un nuevo ticket (PETICIÓN MULTIPARTE)
@@ -22,6 +22,7 @@ const { fecha_creacion, estado, titulo, descripcion, anotaciones, asignaciones, 
  * @apiParam {String} access_token Token JWT de un usuario
  * @apiParam titulo Título del ticket
  * @apiParam descripcion Descripción del ticket
+ * @apiParam inventariable ID del dispositivo que presenta el fallo (no es obligatorio)
  * @apiParam tecnico ID del técnico al que se le asigna el ticket (optativo)
  * @apiParam {files} fotos Fotos del ticket (puede no llevar ninguna)
  * @apiSuccess {Object} ticket Datos del ticket

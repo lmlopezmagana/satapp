@@ -7,10 +7,16 @@ const anotacionSchema = new Schema({
     required: true
   },
   fecha: {
-    type: String
+    type: Date,
+    default: Date.now()
   },
   cuerpo: {
     type: String
+  },
+  id_ticket: {
+    type: Schema.ObjectId,
+    ref: 'Ticket',
+    required: true
   }
 }, {
   timestamps: true,
@@ -28,6 +34,7 @@ anotacionSchema.methods = {
       id_usuario: this.id_usuario.view(full),
       fecha: this.fecha,
       cuerpo: this.cuerpo,
+      ticket: this.id_ticket.view(full), 
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

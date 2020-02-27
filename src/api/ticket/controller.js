@@ -15,6 +15,10 @@ export const create = (req, res, next) => {
     })
   }
 
+  if ('inventariable' in req.body) {
+    nuevoTicket.inventariable = req.body.inventariable
+  }
+
   if (req.files.length > 0) {
     nuevoTicket.fotos = new Array(req.files.length)
   }
@@ -59,6 +63,8 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .then(success(res))
     .catch(next)
 
+
+// Añadir, como funcionalidad, el borrado en cascada de las anotaciones del ticket
 export const destroy = ({ user, params }, res, next) =>
   Ticket.findById(params.id)
     .then(notFound(res))
