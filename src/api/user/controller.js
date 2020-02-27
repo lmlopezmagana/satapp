@@ -215,8 +215,13 @@ export const getImage = ({ params }, res, next) =>
   User.findById(params.id)
     .then(notFound(res))
     .then((user) => {
-      res.contentType(user.picture.contentType)
-      res.send(Buffer.from(user.picture.data, 'base64'))
+      if (user.picture != undefined)
+        return {
+          res.contentType(user.picture.contentType)
+          res.send(Buffer.from(user.picture.data, 'base64'))
+        }
+      else
+        res.sendStatus(404)
     })
     // .then(success(res, 200))
     .catch(next)
