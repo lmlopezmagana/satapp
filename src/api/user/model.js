@@ -102,6 +102,7 @@ userSchema.methods = {
       email:  this.email,
       role: this.role,
       picture: this.picture != null ? '/users/img/' + this.id : null,
+      validated: this.validated,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }
