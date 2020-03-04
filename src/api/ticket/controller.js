@@ -116,7 +116,7 @@ export const getImage = ({ params }, res, next) =>
 // getTicketsUsuarioActual, getTicketsDispositivo
 
 // export const getTicketsUsuarioActual = ({ querymen: { query, select, cursor } }, res, next) => {
-export const getTicketsUsuarioActual = (req, res, next) => {
+/*export const getTicketsUsuarioActual = (req, res, next) => {
   console.log('Hola mundo!!!!')
   console.dir(req.querymen)
   let query = {}
@@ -126,11 +126,20 @@ export const getTicketsUsuarioActual = (req, res, next) => {
     .then((tickets) => tickets.map((ticket) => ticket.view()))
     .then(success(res))
     .catch(next)
+}*/
+
+export const getTicketsUsuarioActual = ({ user, querymen: { query, select, cursor } }, res, next) => {
+  query.creado_por = user._id
+  return Ticket.find(query, select, cursor)
+    //.populate('creado_por')
+    .then((tickets) => tickets.map((ticket) => ticket.view()))
+    .then(success(res))
+    .catch(next)
 }
 
 export const getTicketsAsignadosUsuarioActual = (req, { querymen: { query, select, cursor } }, res, next) => {
   query.asignaciones.tecnico_id = req.user._id
-  Ticket.find(query, select, cursor)
+  return Ticket.find(query, select, cursor)
     .populate('creado_por')
     .then((tickets) => tickets.map((ticket) => ticket.view()))
     .then(success(res))
@@ -139,7 +148,7 @@ export const getTicketsAsignadosUsuarioActual = (req, { querymen: { query, selec
 
 export const getTicketsDispositivo = (req, { querymen: { query, select, cursor } }, res, next) => {
   query.inventariable = req.params.id
-  Ticket.find(query, select, cursor)
+  return Ticket.find(query, select, cursor)
     .populate('creado_por')
     .then((tickets) => tickets.map((ticket) => ticket.view()))
     .then(success(res))
