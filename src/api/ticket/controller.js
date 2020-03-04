@@ -61,15 +61,23 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .then(authorOrAdmin(res, user, 'creado_por'))
     .then((ticket) => {
 
-      console.dir(body)
+      let modificado = false
 
-      if (body.titulo != undefined)
+      if (body.titulo != undefined) {
         ticket.titulo = body.titulo
-      if (body.descripcion != undefined)
+        modificado = true
+      }
+      if (body.descripcion != undefined) {
         ticket.descripcion = body.descripcion
-      
-      return ticket.save()
+        modificado = true
+      }
 
+      if (modificado)
+        return ticket.save()
+      else
+        return res.status(400).json({'error': 'Petición incorrecta. Se necesita al menos un parámetro a modificar: título o descripción'})
+
+        throw new Error("Error!!!")
 
     })
     .then((ticket) => {
