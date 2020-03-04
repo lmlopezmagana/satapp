@@ -50,6 +50,7 @@ export const show = ({ params }, res, next) =>
   Ticket.findById(params.id)
     .populate('creado_por')
     .then(notFound(res))
+    .then((ticket) => ticket.populate('anotaciones._id').execPopulate())
     .then((ticket) => ticket ? ticket.view() : null)
     .then(success(res))
     .catch(next)
