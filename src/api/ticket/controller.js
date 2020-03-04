@@ -137,8 +137,8 @@ export const getTicketsUsuarioActual = ({ user, querymen: { query, select, curso
     .catch(next)
 }
 
-export const getTicketsAsignadosUsuarioActual = (req, { querymen: { query, select, cursor } }, res, next) => {
-  query.asignaciones.tecnico_id = req.user._id
+export const getTicketsAsignadosUsuarioActual = ({ user, querymen: { query, select, cursor } }, res, next) => {
+  query.asignaciones.tecnico_id = user._id
   return Ticket.find(query, select, cursor)
     .populate('creado_por')
     .then((tickets) => tickets.map((ticket) => ticket.view()))
@@ -146,8 +146,8 @@ export const getTicketsAsignadosUsuarioActual = (req, { querymen: { query, selec
     .catch(next)
 }
 
-export const getTicketsDispositivo = (req, { querymen: { query, select, cursor } }, res, next) => {
-  query.inventariable = req.params.id
+export const getTicketsDispositivo = ({ querymen: { query, select, cursor }, params }, res, next) => {
+  query.inventariable = params.id
   return Ticket.find(query, select, cursor)
     .populate('creado_por')
     .then((tickets) => tickets.map((ticket) => ticket.view()))
