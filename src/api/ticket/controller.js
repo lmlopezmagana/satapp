@@ -49,8 +49,8 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
 export const show = ({ params }, res, next) =>
   Ticket.findById(params.id)
     .populate('creado_por')
+    .populate('anotaciones')
     .then(notFound(res))
-    .then((ticket) => ticket.populate('anotaciones._id').execPopulate())
     .then((ticket) => ticket ? ticket.view() : null)
     .then(success(res))
     .catch(next)
@@ -115,8 +115,12 @@ export const getImage = ({ params }, res, next) =>
 
 // getTicketsUsuarioActual, getTicketsDispositivo
 
-export const getTicketsUsuarioActual = (req, { querymen: { query, select, cursor } }, res, next) => {
-  query.creado_por = req.user._id
+// export const getTicketsUsuarioActual = ({ querymen: { query, select, cursor } }, res, next) => {
+export const getTicketsUsuarioActual = (req, res, next) => {
+  console.log('Hola mundo!!!!')
+  console.dir(req.querymen)
+  let query = {}
+  //query.creado_por = req.user._id
   Ticket.find(query, select, cursor)
     // .populate('creado_por')
     .then((tickets) => tickets.map((ticket) => ticket.view()))

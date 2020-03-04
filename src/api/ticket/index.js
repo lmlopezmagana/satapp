@@ -35,21 +35,7 @@ router.post('/',
   // body({ titulo, descripcion, usuario }),
   create)
 
-/**
- * @api {get} /ticket Obtener todos los tickets
- * @apiName RetrieveTickets
- * @apiGroup Ticket
- * @apiPermission user
- * @apiParam {String} access_token Token JWT de un usuario
- * @apiUse listParams
- * @apiSuccess {Object[]} tickets Lista de los tickets
- * @apiError {Object} 400 Algún parámetro erróneo
- * @apiError 401 Error en los permisos
- */
-router.get('/',
-  token({ required: true }),
-  query(),
-  index)
+
 
 /**
  * @api {get} /ticket/asignados/me Obtener todos los tickets asignados al usuario actual
@@ -62,10 +48,13 @@ router.get('/',
  * @apiError {Object} 400 Algún parámetro erróneo
  * @apiError 401 Error en los permisos
  */
+ 
 router.get('/asignados/me',
   token({required: true}),
   query(),
   getTicketsAsignadosUsuarioActual)
+
+
 
 /**
  * @api {get} /ticket/user/me Obtener todos los tickets dados de alta por el usuario actual
@@ -78,26 +67,13 @@ router.get('/asignados/me',
  * @apiError {Object} 400 Algún parámetro erróneo
  * @apiError 401 Error en los permisos
  */
+ 
 router.get('/user/me',
   token({required: true}),
   query(),
   getTicketsUsuarioActual)
 
-/**
- * @api {get} /ticket/:id Obtener un ticket
- * @apiName ObtenerTicket
- * @apiGroup Ticket
- * @apiPermission user
- * @apiParam {String} access_token Token JWT de un usuario 
- * @apiSuccess {Object} ticket Datos del ticket
- * @apiError {Object} 400 Algún parámetro erróneo
- * @apiError 404 Ticket no encontrado
- * @apiError 401 Error de privilegios
- */
- 
-router.get('/:id',
-  token({ required: true }),
-  show)
+
 
 /**
  * @api {get} /ticket/inventariable/:id Obtener todos los tickets de un inventariable
@@ -115,6 +91,37 @@ router.get('/inventariable/:id',
   query(),
   getTicketsDispositivo)
 
+/**
+ * @api {get} /ticket Obtener todos los tickets
+ * @apiName RetrieveTickets
+ * @apiGroup Ticket
+ * @apiPermission user
+ * @apiParam {String} access_token Token JWT de un usuario
+ * @apiUse listParams
+ * @apiSuccess {Object[]} tickets Lista de los tickets
+ * @apiError {Object} 400 Algún parámetro erróneo
+ * @apiError 401 Error en los permisos
+ */
+router.get('/',
+  token({ required: true }),
+  query(),
+  index)
+
+/**
+ * @api {get} /ticket/:id Obtener un ticket
+ * @apiName ObtenerTicket
+ * @apiGroup Ticket
+ * @apiPermission user
+ * @apiParam {String} access_token Token JWT de un usuario 
+ * @apiSuccess {Object} ticket Datos del ticket
+ * @apiError {Object} 400 Algún parámetro erróneo
+ * @apiError 404 Ticket no encontrado
+ * @apiError 401 Error de privilegios
+ */
+ 
+router.get('/:id',
+  token({ required: true }),
+  show)
 
 /**
  * @api {put} /ticket/:id Actualizar ticket

@@ -42,10 +42,10 @@ const ticketSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'Inventariable'
   },
-  anotaciones: {
-    type: [Schema.ObjectId],
+  anotaciones: [{
+    type: Schema.ObjectId,
     ref: 'Anotacion'
-  },
+  }],
   asignaciones: {
     type: [asignacionSchema]
   },
