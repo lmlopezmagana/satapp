@@ -1,5 +1,6 @@
 import { success, notFound, authorOrAdmin, adminOrTecnico } from '../../services/response/'
 import { Ticket } from '.'
+import { Anotacion } from '../anotacion'
 
 export const create = (req, res, next) => {
   let nuevoTicket = {
@@ -14,6 +15,7 @@ export const create = (req, res, next) => {
     nuevoTicket.asignaciones.push({
       tecnico_id: req.body.tecnico
     })
+    nuevoTicket.estado = 'ASIGNADA'
   }
 
   if ('inventariable' in req.body) {
@@ -82,7 +84,6 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
 
     })
     .then((ticket) => {
-      // console.dir(ticket)
       return ticket
     })
     .then((ticket) => ticket ? ticket.view(true) : null)
@@ -95,6 +96,13 @@ export const destroy = ({ user, params }, res, next) =>
   Ticket.findById(params.id)
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'creado_por'))
+    .then((ticket) => {
+      ticket.anotaciones.map((anotacion) => {
+        Anotacion.remove({_id: anotacion.id})
+      })
+
+      return ticket
+    })
     .then((ticket) => ticket ? ticket.remove() : null)
     .then(success(res, 204))
     .catch(next)
@@ -112,21 +120,6 @@ export const getImage = ({ params }, res, next) =>
     })
     .catch(next)
 
-
-// getTicketsUsuarioActual, getTicketsDispositivo
-
-// export const getTicketsUsuarioActual = ({ querymen: { query, select, cursor } }, res, next) => {
-/*export const getTicketsUsuarioActual = (req, res, next) => {
-  console.log('Hola mundo!!!!')
-  console.dir(req.querymen)
-  let query = {}
-  //query.creado_por = req.user._id
-  Ticket.find(query, select, cursor)
-    // .populate('creado_por')
-    .then((tickets) => tickets.map((ticket) => ticket.view()))
-    .then(success(res))
-    .catch(next)
-}*/
 
 export const getTicketsUsuarioActual = ({ user, querymen: { query, select, cursor } }, res, next) => {
   query.creado_por = user._id
