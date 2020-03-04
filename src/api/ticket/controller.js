@@ -59,7 +59,23 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .populate('creado_por')
     .then(notFound(res))
     .then(authorOrAdmin(res, user, 'creado_por'))
-    .then((ticket) => ticket ? Object.assign(ticket, body).save() : null)
+    .then((ticket) => {
+
+      console.dir(body)
+
+      if (body.titulo != undefined)
+        ticket.titulo = body.titulo
+      if (body.descripcion != undefined)
+        ticket.descripcion = body.descripcion
+      
+      return ticket.save()
+
+
+    })
+    .then((ticket) => {
+      // console.dir(ticket)
+      return ticket
+    })
     .then((ticket) => ticket ? ticket.view(true) : null)
     .then(success(res))
     .catch(next)
