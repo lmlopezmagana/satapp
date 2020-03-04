@@ -10,6 +10,7 @@ export const create = (req, res, next) => {
   }
 
   if ('tecnico' in req.body) {
+    nuevoTicket.asignaciones = new Array()
     nuevoTicket.asignaciones.push({
       tecnico_id: req.body.tecnico
     })
