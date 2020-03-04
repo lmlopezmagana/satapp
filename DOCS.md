@@ -614,7 +614,7 @@
 
 
 
-	GET /img/:id
+	GET /users/img/:id
 
 
 ### Parameters

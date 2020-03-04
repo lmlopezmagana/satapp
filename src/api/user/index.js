@@ -94,7 +94,7 @@ router.post('/',
   create)
 
 /**
- * @api {get} /img/:id Obtiene la imagen de un usuario
+ * @api {get} /users/img/:id Obtiene la imagen de un usuario
  * @apiName ObtenerImagenUsuario
  * @apiGroup User
  * @apiPermission user
