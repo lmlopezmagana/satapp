@@ -74,7 +74,12 @@ export const destroy = ({ user, params }, res, next) => {
     .then((anotacion) => anotacion ? anotacion.remove() : null)
     .then(() => Ticket.findById(ticketId))
     .then((ticket) => {
-      ticket.anotaciones = _.remove(ticket.anotaciones, (v) => v == anotacionId)
+      // ticket.anotaciones = _.remove(ticket.anotaciones, (v) => v == anotacionId)
+      /*ticket.anotaciones = _.remove(ticket.anotaciones, function (element) {
+        console.log(element +  " " + anotacionId)
+        return element == anotacionId
+      })*/
+      _.pull(ticket.anotaciones, anotacionId)
       return ticket.save()
     })
     .then(success(res, 204))
