@@ -58,7 +58,6 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .catch(next)
 
 
-// TODO Incluir dentro los tickets que tenga asociado un Inventariable
 export const show = ({ params }, res, next) =>
   Inventariable.findById(params.id)
     .then(notFound(res))
@@ -100,12 +99,28 @@ export const destroy = ({ params }, res, next) =>
     .then(success(res, 204))
     .catch(next)
 
+export const deteleImage = ({ params }, res, next) =>
+  Inventariable.findById(params.id)
+    .then(notFound(res))
+    .then((inventariable) => {
+      if (inventariable) {
+        delete inventariable['imagen'];
+      } else
+        return null
+    })
+    .then(success(res, 204))
+    .catch(next)
+
 export const getImage = ({ params }, res, next) =>
   Inventariable.findById(params.id)
     .then(notFound(res))
     .then((inventariable) => {
-      res.contentType(inventariable.imagen.contentType)
-      res.send(Buffer.from(inventariable.imagen.data,'base64'))
+      if (inventariable.imagen != undefined) {
+        res.contentType(inventariable.imagen.contentType)
+        res.send(Buffer.from(inventariable.imagen.data,'base64'))
+      }
+      else
+        return res.sendStatus(404)
     })
     // .then(success(res, 200))
     .catch(next)
