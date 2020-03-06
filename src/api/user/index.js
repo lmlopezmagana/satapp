@@ -25,7 +25,7 @@ const { email, password, name, picture, role } = schema.tree
  * @apiError 401 El usuario no tiene privilegios.
  */
 router.get('/',
-  token({ required: true, roles: ['admin'] }),
+  token({ required: true, roles: ['admin', 'tecnico'] }),
   query(),
   index)
 
