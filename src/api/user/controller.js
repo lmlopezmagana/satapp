@@ -115,8 +115,12 @@ export const updateImg = (req, res, next) =>
     })
     // .then((user) => user ? Object.assign(user, body).save() : null)
     .then((user) => {
-      user.picture.data = req.file.buffer.toString('base64')
-      user.picture.contentType = req.file.mimetype
+      user.picture = {
+        data : req.file.buffer.toString('base64'), 
+        contentType : req.file.mimetype
+      }
+      // user.picture.data = req.file.buffer.toString('base64')
+      // user.picture.contentType = req.file.mimetype
       return user.save()
     })
     .then((user) => user ? user.view(true) : null)
