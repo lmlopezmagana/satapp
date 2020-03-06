@@ -132,12 +132,14 @@ export const getTicketsUsuarioActual = ({ user, querymen: { query, select, curso
 
 export const getTicketsAsignadosUsuarioActual = ({ user, querymen: { query, select, cursor } }, res, next) => {
   query['asignaciones.tecnico_id'] = user._id
-  console.log(query)
+  // console.log(query)
   return Ticket.find(query, select, cursor)
     .populate('creado_por')
     .then((tickets) => tickets.map((ticket) => ticket.view()))
-    .then((tickets) => tickets.length > 0 ? tickets : res.sendStatus(404))
-    .then(success(res))
+    .then((tickets) => {
+      tickets.length > 0 ? res.status(200).json(tickets) : res.sendStatus(404)
+    })
+    //.then(success(res))
     .catch(next)
 }
 
